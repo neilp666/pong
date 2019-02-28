@@ -1,5 +1,11 @@
+var pX, pY, pW, pH
+
 function setup() {
   createCanvas(640, 480);
+  pW = 20
+  pH = 100
+  pX = 0
+  pY = height/2
 }
 
 function draw() {
@@ -13,4 +19,9 @@ function draw() {
   for (var i = 0; i < height/10; i++) {
     line(width/2, height/10*i, width/2, height/20 + height/10*i)
   }
+
+  // fill the area with white color
+  fill(255)
+  // Draw a rectangle: x, y width, height
+  rect(pX, pY -pH/2, pW, pH)
 }
