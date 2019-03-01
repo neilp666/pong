@@ -1,8 +1,10 @@
 var pX, pY, pW, pH, pV
-
+// set up computer AI
+var cX, cY, cV
 // set up ball variables
 var bX, bY, bD, vX, vY, vMax
 var maxAngle
+var botLevel
 
 function setup() {
   createCanvas(600, 400);
@@ -11,6 +13,10 @@ function setup() {
   pX = 0
   pY = height/2
   pV = 0 // paddle's velocity
+
+  cX = width - pW
+  cY = height/2
+  cV = 0
 
   bX = width/2
   bY = height/2
@@ -21,6 +27,7 @@ function setup() {
   vY = vMax
 
   maxAngle = 75 / 180 * PI
+  botLevel = 0.1
 }
 
 function draw() {
@@ -47,15 +54,42 @@ function draw() {
   }
   // fill the area with white color
   fill(255)
-  // Draw a rectangle: x, y width, height
+  // Draw a rectangle: x, y, width, height
   rect(pX, pY - pH/2, pW, pH)
+
+   // Computer player
+   // Computer controls their movement
+   cV = botLevel * (bY - cY)
+   //  should not move faster than player
+   if (cV < -4) {
+     cV = -4
+   }
+
+   if (cV > 4) {
+     cV = 4
+   }
+  
+   // update paddle's position
+   cY = cY + cV
+   // limit paddle's position
+   if (cY < pH/2) {
+     cY = pH/2
+   }
+ 
+   if (cY > height - pH/2) {
+     cY = height - pH/2
+   }
+   // fill the area with white color
+   fill(255)
+   // Draw a rectangle: x, y width, height
+   rect(cX, cY - pH/2, pW, pH)
 
   // update ball's position
 
   bX = bX + vX
   bY = bY + vY
 
-  // update ball's collistion with player's paddle
+  // update ball's collision with player's paddle
 
   if(bX - bD/2 <= pX + pW &&
      bY >= pY - pH/2 &&
@@ -66,6 +100,18 @@ function draw() {
        vX = vMax * cos(angle)
        vY = vMax * sin(angle)
   }
+
+  // update ball's collistion with computer's paddle
+
+  if(bX + bD/2 >= width - pW &&
+    bY >= cY - pH/2 &&
+    bY <= cY + pH/2) {
+      var range = (bY - cY) / (pH / 2 )
+      var angle = range * maxAngle
+      // update ball's velocity after collision
+      vX = -vMax * cos(angle)
+      vY = vMax * sin(angle)
+ }
 
   // bounce back when hitting the top and bottom walls
 
@@ -100,7 +146,16 @@ function keyPressed() {
   if(key == 'w') {
     pV = -4
   }
+
   if(key == 's') {
     pV = 4
+  }
+
+  if(key == 'i') {
+    cV = -4
+  }
+
+  if(key == 'k') {
+    cV = 4
   }
 }
