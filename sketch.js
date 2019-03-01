@@ -6,6 +6,7 @@ var bX, bY, bD, vX, vY, vMax
 var maxAngle
 var botLevel
 var pScore, cScore
+var freeze
 
 function setup() {
   createCanvas(600, 400);
@@ -34,8 +35,10 @@ function restart() {
   bD = height/20
 
   vMax = 6
-  vX = -vMax
-  vY = vMax
+  vX = 0
+  vY = 0
+
+  freeze = true
 }
 
 function draw() {
@@ -162,6 +165,12 @@ function draw() {
   // create function when users presses keys
 
 function keyPressed() {
+  if(freeze == true) {
+    vX = -vMax
+    vY = vMax
+    freeze = false
+  }
+
   if(key == 'w') {
     pV = -4
   }
