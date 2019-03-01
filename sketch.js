@@ -2,6 +2,7 @@ var pX, pY, pW, pH, pV
 
 // set up ball variables
 var bX, bY, bD, vX, vY, vMax
+var maxAngle
 
 function setup() {
   createCanvas(600, 400);
@@ -18,6 +19,8 @@ function setup() {
   vMax = 6
   vX = -vMax
   vY = vMax
+
+  maxAngle = 75 / 180 * PI
 }
 
 function draw() {
@@ -48,10 +51,23 @@ function draw() {
   rect(pX, pY - pH/2, pW, pH)
 
   // update ball's position
+
   bX = bX + vX
   bY = bY + vY
 
-  // bounce back when hitting the top and bottom walls 
+  // update ball's collistion with player's paddle
+
+  if(bX - bD/2 <= pX + pW &&
+     bY >= pY - pH/2 &&
+     bY <= pY + pH/2) {
+       var range = (bY - pY) / (pH / 2 )
+       var angle = range * maxAngle
+       vX = vMax * console(angle)
+       vY = vMax * setInterval(angle)
+  }
+
+  // bounce back when hitting the top and bottom walls
+
   if(bY + bD/2 >= height) {
     vY = vY * -1
     bY = height - bD/2
