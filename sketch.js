@@ -5,9 +5,20 @@ var cX, cY, cV
 var bX, bY, bD, vX, vY, vMax
 var maxAngle
 var botLevel
+var pScore, cScore
 
 function setup() {
   createCanvas(600, 400);
+  restart()
+
+  maxAngle = 75 / 180 * PI
+  botLevel = 0.1
+
+  pScore = 0
+  cScore = 0
+}
+
+function restart() {
   pW = 20
   pH = 100
   pX = 0
@@ -25,9 +36,6 @@ function setup() {
   vMax = 6
   vX = -vMax
   vY = vMax
-
-  maxAngle = 75 / 180 * PI
-  botLevel = 0.1
 }
 
 function draw() {
@@ -127,17 +135,28 @@ function draw() {
 
 
   if(bX - bD/2 <= 0) {
-    vX = vX * -1
-    bX = bD/2
+    // computer score increases
+    cScore++
+    // start a new game
+    restart()
   }
 
   if(bX + bD/2 >= width) {
     vX = vX * -1
-    bx = width - bD/2
+    bX = width - bD/2
+      // player score increases
+    pScore++
+    // start a new game
+    restart()
   }
 
   // Draw a ball
   ellipse(bX, bY, bD, bD)
+
+  // change the text size
+  textSize(24)
+  text(pScore, 0.25*width, 0.25*height)
+  text(cScore, 0.75*width, 0.25*height)
 }
 
   // create function when users presses keys
