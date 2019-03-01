@@ -62,8 +62,9 @@ function draw() {
      bY <= pY + pH/2) {
        var range = (bY - pY) / (pH / 2 )
        var angle = range * maxAngle
-       vX = vMax * console(angle)
-       vY = vMax * setInterval(angle)
+       // update ball's velocity after collision
+       vX = vMax * cos(angle)
+       vY = vMax * sin(angle)
   }
 
   // bounce back when hitting the top and bottom walls
