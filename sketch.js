@@ -1,12 +1,23 @@
 var pX, pY, pW, pH, pV
 
+// set up ball variables
+var bX, bY, bD, vX, vY, vMax
+
 function setup() {
-  createCanvas(640, 480);
+  createCanvas(600, 400);
   pW = 20
   pH = 100
   pX = 0
   pY = height/2
   pV = 0 // paddle's velocity
+
+  bX = width/2
+  bY = height/2
+  bD = height/20
+
+  vMax = 6
+  vX = -vMax
+  vY = vMax
 }
 
 function draw() {
@@ -35,6 +46,35 @@ function draw() {
   fill(255)
   // Draw a rectangle: x, y width, height
   rect(pX, pY - pH/2, pW, pH)
+
+  // update ball's position
+  bX = bX + vX
+  bY = bY + vY
+
+  // bounce back when hitting the top and bottom walls 
+  if(bY + bD/2 >= height) {
+    vY = vY * -1
+    bY = height - bD/2
+  }
+
+  if(bY - bD/2 <= 0) {
+    vY = vY * -1
+    bY = bD/2
+  }
+
+
+  if(bX - bD/2 <= 0) {
+    vX = vX * -1
+    bX = bD/2
+  }
+
+  if(bX + bD/2 >= width) {
+    vX = vX * -1
+    bx = width - bD/2
+  }
+
+  // Draw a ball
+  ellipse(bX, bY, bD, bD)
 }
 
   // create function when users presses keys
